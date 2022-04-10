@@ -21,7 +21,7 @@ def diffusion(x, adj, num_propagations, p, alpha):
         alpha = 0.5
 
     x = x **p
-    for i in tqdm(range(num_propagations)):
+    for _ in tqdm(range(num_propagations)):
         x = x - alpha * (sparse.eye(adj.shape[0]) - adj) @ x
         x = x **p
     return torch.from_numpy(x).to(torch.float)

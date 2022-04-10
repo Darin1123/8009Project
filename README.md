@@ -67,9 +67,11 @@ python3 main.py
 
 To select a different algorithm, please modify the parameters listed on the top of `main.py`.
 
-> **Possible issue**
-> 
-> By running the above command, python may get stuck and produce nothing. To solve this problem, you could use [PyCharm](https://www.jetbrains.com/pycharm/) to run the code.
+### Possible issues
+
+1. By running the above command, python may get stuck and produce nothing. To solve this problem, you could use [PyCharm](https://www.jetbrains.com/pycharm/) to run the code.
+
+2. If the embedding is set to `True`, then you may encounter the problem that "FileNotFoundError: [Errno 2] No such file or directory: 'embeddings/diffusionarxiv.pt'". To solve this problem, you simply need to create a folder named `embeddings` and, in that folder, create an empty file name `diffusionarxiv.pt`.
 
 ## References
 

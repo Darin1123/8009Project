@@ -1,5 +1,6 @@
 from load import DataLoader
 from diffusion_feature import preprocess
+from logger import Logger
 from models import MLPLinear, MLP
 import sys
 import gc
@@ -11,8 +12,8 @@ from ogb.nodeproppred import PygNodePropPredDataset, Evaluator
 #      choose model       #
 ###########################
 # model related
-MODEL = 'lp'  # 'lp' | 'plain' | 'linear' | 'mlp'
-USE_EMBEDDINGS = False  # True | False
+MODEL = 'plain'  # 'lp' | 'plain' | 'linear' | 'mlp'
+USE_EMBEDDINGS = True  # True | False
 NUM_LAYERS = 3  # number of layers in the MLP
 HIDDEN_CHANNELS = 256
 
@@ -24,16 +25,14 @@ HIDDEN_CHANNELS = 256
 RUNS = 5  # number of runs, should be >=2
 LR = 0.01  # learning rate
 EPOCHS = 300
-
 # constants
-DEVICE = 'cpu'
+DEVICE = 'cpu'  # computation device
 DATASET = 'arxiv'
 
 
 ##########################################
 #      DO NOT MODIFY THE REMAINING       #
 ##########################################
-
 # load data
 dataLoader = DataLoader()
 dataset, split_idx = dataLoader.load_data()
