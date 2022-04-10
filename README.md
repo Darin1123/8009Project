@@ -21,7 +21,7 @@
 
 ##### 1. ImportError: cannot import name 'PygGraphPropPredDataset' from 'ogb.graphproppred']
 
-[Solution](https://github.com/snap-stanford/ogb/issues/115) -> [Solution](https://github.com/pyg-team/pytorch_geometric#installation)
+[Problem](https://github.com/snap-stanford/ogb/issues/115) $\rightarrow$ [Solution](https://github.com/pyg-team/pytorch_geometric#installation)
 
 
 ## Objective
@@ -47,10 +47,13 @@ The core method we use is C&S by following the paper ["Combining Label Propagati
 ## Dependencies
 
 ```text
-Python 3.9.12
-Pytorch 1.11.0
-Numpy 1.22.3
-Optuna 2.10.0
+python              3.9.12
+pytorch             1.11.0
+torch-geometric     2.0.4
+torch-scatter       2.0.9
+torch-sparse        0.6.13
+numpy               1.22.3
+ogb                 1.3.3
 ```
 
 ## Datasets
@@ -71,7 +74,7 @@ To select a different algorithm, please modify the parameters listed on the top 
 
 1. By running the above command, python may get stuck and produce nothing. To solve this problem, you could use [PyCharm](https://www.jetbrains.com/pycharm/) to run the code.
 
-2. If the embedding is set to `True`, then you may encounter the problem that "FileNotFoundError: [Errno 2] No such file or directory: 'embeddings/diffusionarxiv.pt'". To solve this problem, you simply need to create a folder named `embeddings` and, in that folder, create an empty file name `diffusionarxiv.pt`.
+2. If the `USE_EMBEDDINGS` is set to `True`, then you may encounter the problem that "FileNotFoundError: [Errno 2] No such file or directory: 'embeddings/diffusionarxiv.pt'". To solve this problem, you simply need to create a folder named `embeddings` and, in that folder, create an empty file name `diffusionarxiv.pt`.
 
 ## References
 
