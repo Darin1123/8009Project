@@ -2,28 +2,6 @@
 
 > April 7, 2022
 
-## Some Links
-
-### Project
-
-- [Project Submission](https://canvas.cityu.edu.hk/courses/46749/assignments/196816)
-- [README Sample](https://github.com/rguo12/network-deconfounder-wsdm20)
-
-### Dataset
-
-- [ogbn-arxiv](https://ogb.stanford.edu/docs/nodeprop/#ogbn-arxiv)
-
-### Code Related
-
-- [Load Data Code](https://github.com/rguo12/network-deconfounder-wsdm20)
-
-#### Issues
-
-##### 1. ImportError: cannot import name 'PygGraphPropPredDataset' from 'ogb.graphproppred']
-
-[Problem](https://github.com/snap-stanford/ogb/issues/115) $\rightarrow$ [Solution](https://github.com/pyg-team/pytorch_geometric#installation)
-
-
 ## Objective
 
 Predict the class for each paper from the dataset.
@@ -76,6 +54,8 @@ To select a different algorithm, please modify the parameters listed on the top 
 
 2. If the `USE_EMBEDDINGS` is set to `True`, then you may encounter the problem that "FileNotFoundError: [Errno 2] No such file or directory: 'embeddings/diffusionarxiv.pt'". To solve this problem, you simply need to create a folder named `embeddings` and, in that folder, create an empty file named `diffusionarxiv.pt`.
 
+3. If you get `ImportError: cannot import name 'PygGraphPropPredDataset' from 'ogb.graphproppred']`, then you need to install PyTorch_geometric from by following the instructions [here](https://github.com/pyg-team/pytorch_geometric#installation).
+
 ## Experiment Results
 
 | Model  | Embeddings | Validation accuracy (%) | Test accuracy (%) |
@@ -87,6 +67,13 @@ To select a different algorithm, please modify the parameters listed on the top 
 |        | No         | 71.95                   | 69.95             |
 | mlp    | Yes        | 73.82                   | 72.76             |
 |        | No         | 70.11                   | 68.51             |
+
+## Some Links
+
+- [Project Submission](https://canvas.cityu.edu.hk/courses/46749/assignments/196816)
+- [README Sample](https://github.com/rguo12/network-deconfounder-wsdm20)
+- [ogbn-arxiv](https://ogb.stanford.edu/docs/nodeprop/#ogbn-arxiv)
+- [Load Data Code](https://github.com/rguo12/network-deconfounder-wsdm20)
 
 
 ## References
