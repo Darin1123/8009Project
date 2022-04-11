@@ -6,29 +6,27 @@ import sys
 import gc
 from outcome_correlation import *
 from ogb.nodeproppred import PygNodePropPredDataset, Evaluator
-
+import glob
 
 ###########################
 #      choose model       #
 ###########################
 # model related
 MODEL = 'plain'  # 'lp' | 'plain' | 'linear' | 'mlp'
-USE_EMBEDDINGS = True  # True | False
+USE_EMBEDDINGS = False  # True | False
 NUM_LAYERS = 3  # number of layers in the MLP
 HIDDEN_CHANNELS = 256
-
 
 ############################
 #      test settings       #
 ############################
 # test related
-RUNS = 5  # number of runs, should be >=2
+RUNS = 1  # number of runs, should be >=2
 LR = 0.01  # learning rate
 EPOCHS = 300
 # constants
 DEVICE = 'cpu'  # computation device
 DATASET = 'arxiv'
-
 
 ##########################################
 #      DO NOT MODIFY THE REMAINING       #
@@ -142,8 +140,8 @@ else:
     print("the model is not defined in this implementation")
     sys.exit()
 
-x = (x - x.mean(0)) / x.std(0)
 
+x = (x - x.mean(0)) / x.std(0)
 x = x.to(device)
 y_true = data.y.to(device)
 train_idx = split_idx['train'].to(device)
@@ -179,3 +177,78 @@ for run in range(RUNS):
 
 # result
 logger.print_statistics()
+
+# experiments
+dataset = PygNodePropPredDataset(name=f'ogbn-{DATASET}', root='data')
+data = dataset[0]
+adj, D_isqrt = process_adj(data)
+normalized_adjs = gen_normalized_adjs(adj, D_isqrt)
+DAD, DA, AD = normalized_adjs
+model_outs = glob.glob(f'models/{DATASET}_{MODEL}/*.pt')
+lp_dict = {
+    'idxs': ['train'],
+    'alpha': 0.9,
+    'num_propagations': 50,
+    'A': AD,
+}
+plain_dict = {
+    'train_only': True,
+    'alpha1': 0.87,
+    'A1': AD,
+    'num_propagations1': 50,
+    'alpha2': 0.81,
+    'A2': DAD,
+    'num_propagations2': 50,
+    'display': False,
+}
+plain_fn = double_correlation_autoscale
+
+"""
+If you tune hyperparameters on test set
+{'alpha1': 0.9988673963255859, 'alpha2': 0.7942279952481052, 'A1': 'DA', 'A2': 'AD'} 
+gets you to 72.64
+"""
+linear_dict = {
+    'train_only': True,
+    'alpha1': 0.98,
+    'alpha2': 0.65,
+    'A1': AD,
+    'A2': DAD,
+    'num_propagations1': 50,
+    'num_propagations2': 50,
+    'display': False,
+}
+linear_fn = double_correlation_autoscale
+
+"""
+If you tune hyperparameters on test set
+{'alpha1': 0.9956668128133523, 'alpha2': 0.8542393515434346, 'A1': 'DA', 'A2': 'AD'}
+gets you to 73.35
+"""
+mlp_dict = {
+    'train_only': True,
+    'alpha1': 0.9791632871592579,
+    'alpha2': 0.7564990804200602,
+    'A1': DA,
+    'A2': AD,
+    'num_propagations1': 50,
+    'num_propagations2': 50,
+    'display': False,
+}
+mlp_fn = double_correlation_autoscale
+
+gat_dict = {
+    'labels': ['train'],
+    'alpha': 0.8,
+    'A': DAD,
+    'num_propagations': 50,
+    'display': False,
+}
+gat_fn = only_outcome_correlation
+
+if MODEL == 'plain':
+    evaluate_params(data, eval_test, model_outs, split_idx, plain_dict, fn=plain_fn)
+elif MODEL == 'linear':
+    evaluate_params(data, eval_test, model_outs, split_idx, linear_dict, fn=linear_fn)
+elif MODEL == 'mlp':
+    evaluate_params(data, eval_test, model_outs, split_idx, mlp_dict, fn=mlp_fn)
