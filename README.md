@@ -74,7 +74,20 @@ To select a different algorithm, please modify the parameters listed on the top 
 
 1. By running the above command, python may get stuck and produce nothing. To solve this problem, you could use [PyCharm](https://www.jetbrains.com/pycharm/) to run the code.
 
-2. If the `USE_EMBEDDINGS` is set to `True`, then you may encounter the problem that "FileNotFoundError: [Errno 2] No such file or directory: 'embeddings/diffusionarxiv.pt'". To solve this problem, you simply need to create a folder named `embeddings` and, in that folder, create an empty file name `diffusionarxiv.pt`.
+2. If the `USE_EMBEDDINGS` is set to `True`, then you may encounter the problem that "FileNotFoundError: [Errno 2] No such file or directory: 'embeddings/diffusionarxiv.pt'". To solve this problem, you simply need to create a folder named `embeddings` and, in that folder, create an empty file named `diffusionarxiv.pt`.
+
+## Experiment Results
+
+| Model  | Embeddings | Validation accuracy (%) | Test accuracy (%) |
+|--------|------------|-------------------------|-------------------|
+| lp     | -          | 70.18                   | 68.35             |
+| plain  | Yes        | 72.99                   | 71.23             |
+|        | No         | 72.99                   | 71.25             |
+| linear | Yes        | 73.46                   | 71.94             |
+|        | No         | 71.95                   | 69.95             |
+| mlp    | Yes        | 73.82                   | 72.76             |
+|        | No         | 70.11                   | 68.51             |
+
 
 ## References
 
